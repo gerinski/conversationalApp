@@ -271,7 +271,7 @@ def program():
                 else:
                     print('Please select a valid choice!')
             break
-        elif len(x) > 3 and re.search('intelligent|smart|home|robot|assist[^A-Z]?', x, re.IGNORECASE):
+        elif len(x) > 3 and re.search('intelligent|smart|home|house|robot|assist[^A-Z]?', x, re.IGNORECASE):
             while True and not re.match(x, 'exit', re.IGNORECASE):
                 categoryPreference = searchForCategory('Smart Home', item_list)
                 x = input('Are you interested in products for: listening to some music, cooking some tasty '

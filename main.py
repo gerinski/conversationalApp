@@ -74,10 +74,11 @@ def printFinalSuggestion(final_suggestion):
         price = d['subscription_plan']
         print(name + ', with a subscription plan of: ' + price + '€')
     while True:
-        x = input("Would you be interested in searching for another product? (Yes/No)")
-        if re.match(x, 'yes', re.IGNORECASE):
+        x = input("Would you be interested in searching for another product?")
+        if len(x) > 1 and re.search('yes|yeah[^A-Z]?', x, re.IGNORECASE):
+            print("Thank you for trusting us! Take a look again at our categories:")
             program()
-        elif re.match(x, 'no', re.IGNORECASE):
+        elif len(x) > 1 and re.search('no[^A-Z]?', x, re.IGNORECASE):
             print('Thank you for using our app! Hope to see you again in the future!')
             break
         else:
@@ -103,46 +104,47 @@ def program():
     while True:
         printMenu()
         x = input("Type in one of the above categories!")
-        if len(x) > 3 and re.search(x, 'phones & tablets', re.IGNORECASE):
+        if len(x) > 3 and re.search( 'phone[^A-Z]?|tablet[^A-Z]?', x, re.IGNORECASE):
             while True and not re.match(x, 'exit', re.IGNORECASE):
                 categoryPreference = searchForCategory('Phones & Tablets', item_list)
                 x = input("Do you prefer Apple or Samsung products? (apple/samsung)")
-                if len(x) > 3 and re.match(x, 'apple', re.IGNORECASE):
+                if len(x) > 2 and re.search('apple|ios', x, re.IGNORECASE):
                     while True and not re.match(x, 'exit', re.IGNORECASE):
                         brandPreference = searchForBrand('Apple', categoryPreference)
-                        x = input("Do you prefer 32GBs or 128GBs of internal memory? (32/128)")
-                        productNamePreference = searchForProductNameContained(x, brandPreference)
-                        if len(x) > 1 and re.search(x, '128gbs', re.IGNORECASE):
+                        x = input("Do you prefer a smaller or a bigger hard drive? (32 GBs/128 GBs)")
+                        if len(x) > 1 and re.search('128|big[^A-Z]?', x, re.IGNORECASE):
+                            productNamePreference = searchForProductNameContained('128GB', brandPreference)
                             while True and not re.match(x, 'exit', re.IGNORECASE):
                                 x = input("Are you a fan of bigger or smaller screen sizes? (bigger/smaller)")
-                                if len(x) > 2 and re.search(x, 'bigger', re.IGNORECASE):
+                                if len(x) > 2 and re.search('big[^A-Z]?', x, re.IGNORECASE):
                                     final_suggestion = searchForProductName('iPhone 7 Plus 128GB',
                                                                             productNamePreference)
                                     printFinalSuggestion(final_suggestion)
                                     break
-                                elif len(x) > 3 and re.search(x, 'smaller', re.IGNORECASE):
+                                elif len(x) > 3 and re.search('small[^A-Z]?', x, re.IGNORECASE):
                                     final_suggestion = searchForProductName('iPhone 7 128GB', productNamePreference)
                                     printFinalSuggestion(final_suggestion)
                                     break
                                 else:
                                     print("Please select a valid choice!")
                             break
-                        elif len(x) > 1 and re.search(x, '32gbs', re.IGNORECASE):
+                        elif len(x) > 1 and re.search('32|small[^A-Z]?', x, re.IGNORECASE):
+                            productNamePreference = searchForProductNameContained('32GB', brandPreference)
                             final_suggestion = searchForProductName('iPhone 7 32GB', productNamePreference)
                             printFinalSuggestion(final_suggestion)
                             break
                         else:
                             print("Please select a valid choice!")
                     break
-                elif len(x) > 3 and re.search(x, 'samsung', re.IGNORECASE):
+                elif len(x) > 3 and re.search('samsung[^A-Z]?', x, re.IGNORECASE):
                     brandPreference = searchForBrand('Samsung', categoryPreference)
                     while True and not re.match(x, 'exit', re.IGNORECASE):
                         x = input("Are you a fan of bigger or smaller screen sizes?")
-                        if len(x) > 2 and re.search(x, 'bigger', re.IGNORECASE):
+                        if len(x) > 2 and re.search('big[^A-Z]?', x, re.IGNORECASE):
                             final_suggestion = searchForProductName('Galaxy S8+ 64GB', brandPreference)
                             printFinalSuggestion(final_suggestion)
                             break
-                        elif len(x) > 3 and re.search(x, 'smaller', re.IGNORECASE):
+                        elif len(x) > 3 and re.search('small[^A-Z]?', x, re.IGNORECASE):
                             final_suggestion = searchForProductName('Galaxy S8 64GB', brandPreference)
                             printFinalSuggestion(final_suggestion)
                             break
@@ -152,28 +154,28 @@ def program():
                 else:
                     print("Please select a valid choice!")
             break
-        elif len(x) > 3 and re.search(x, 'Gaming & Gadgets', re.IGNORECASE):
+        elif len(x) > 3 and re.search('gaming|gadget[^A-Z]?', x, re.IGNORECASE):
             while True and not re.match(x, 'exit', re.IGNORECASE):
                 categoryPreference = searchForCategories('Drones', 'Gaming & VR', item_list)
-                x = input("Are you interested in: VRs or Drones?")
+                x = input("Are you more interested in: VRs or Drones?")
                 while True and not re.match(x, 'exit', re.IGNORECASE):
-                    if len(x) > 2 and re.search(x, 'drones', re.IGNORECASE):
+                    if len(x) > 2 and re.search('drone[^A-Z]?', x, re.IGNORECASE):
                         categoryPreference = searchForCategory('Drones', item_list)
                         x = input(
-                            "Do you care for a more powerful, more robust and increased autonomy model, or could you"
-                            " settle for less? (Yes/No)")
-                        if re.match(x, 'yes', re.IGNORECASE):
+                            'Do you care for a more powerful, more robust and increased autonomy model, or could you'
+                            ' settle for less? (Yes/No)')
+                        if re.match('power|robust|increas|autonomy[^A-Z]?', x, re.IGNORECASE):
                             final_suggestion = searchForProductName('Drone BEBOP 2', categoryPreference)
                             printFinalSuggestion(final_suggestion)
                             break
-                        elif re.match(x, 'no', re.IGNORECASE):
+                        elif re.match('settle|less|worse|not good[^A-Z]?', x, re.IGNORECASE):
                             final_suggestion = searchForProductName('Drone BEBOP', categoryPreference)
                             printFinalSuggestion(final_suggestion)
                             break
                         else:
                             print("Please select a valid choice!")
                             break
-                    elif len(x) > 1 and re.search(x, 'vrs', re.IGNORECASE):
+                    elif len(x) > 1 and re.search('vr[^A-Z]?', x, re.IGNORECASE):
                         categoryPreference = searchForCategory('Gaming & VR', item_list)
                         printFinalSuggestion(categoryPreference)
                         break
@@ -182,39 +184,39 @@ def program():
                         break
                 break
             break
-        elif len(x) > 3 and re.search(x, 'computing', re.IGNORECASE):
+        elif len(x) > 2 and re.search('laptop|macbook|mac|windows|comput|software[^A-Z]?', x, re.IGNORECASE):
             while True and not re.match(x, 'exit', re.IGNORECASE):
                 categoryPreference = searchForCategory('Computing', item_list)
                 x = input("Are you a fan of the Windows or the iOS operating system?")
-                if re.match(x, 'ios', re.IGNORECASE):
+                if len(x) > 2 and re.search('ios|apple[^A-Z]?', x, re.IGNORECASE):
                     while True and not re.match(x, 'exit', re.IGNORECASE):
                         brandPreference = searchForBrand('Apple', categoryPreference)
                         x = input('Are you interested: (1) In a larger display but with less memory (RAM),'
                                   ' or (2) in a smaller display with more memory (RAM)?')
-                        if len(x) > 4 and re.search(x, 'larger display', re.IGNORECASE):
+                        if len(x) > 2 and re.search('big|large|less[^A-Z]?', x, re.IGNORECASE):
                             while True and not re.match(x, 'exit', re.IGNORECASE):
                                 choices_left = searchForProductNameContained('4GB RAM', brandPreference)
-                                x = input('Would you prefer a hard disk of 500GBs or 128GBs?')
-                                if len(x) > 2 and re.search(x, '500gbs', re.IGNORECASE):
+                                x = input('Would you prefer a larger hard disk or a smaller one? (500GB/128GB)')
+                                if len(x) > 2 and re.search('500|large[^A-Z]?', x, re.IGNORECASE):
                                     final_suggestion = searchForProductNameContained('500', choices_left)
                                     printFinalSuggestion(final_suggestion)
                                     break
-                                elif len(x) > 2 and re.search(x, '128gbs', re.IGNORECASE):
+                                elif len(x) > 2 and re.search('128|small[^A-Z]?', x, re.IGNORECASE):
                                     final_suggestion = searchForProductNameContained('128', choices_left)
                                     printFinalSuggestion(final_suggestion)
                                     break
                                 else:
                                     print('Please select a valid choice!')
                             break
-                        if len(x) > 4 and re.search(x, 'smaller display', re.IGNORECASE):
+                        if len(x) > 4 and re.search('small|more[^A-Z]?', x, re.IGNORECASE):
                             while True and not re.match(x, 'exit', re.IGNORECASE):
                                 choices_left = searchForProductNameContained('8GB RAM', brandPreference)
-                                x = input('Would you care for an i7 or an i5 processor? (i5/i7)')
-                                if re.match(x, 'i5', re.IGNORECASE):
+                                x = input('Would you care for a more powerful (i7) or a simpler (i5) processor?')
+                                if len(x) > 1 and re.search('no|simple|i5[^A-Z]?', x, re.IGNORECASE):
                                     final_suggestion = searchForProductNameContained('MacBook 12" M-5Y31', choices_left)
                                     printFinalSuggestion(final_suggestion)
                                     break
-                                elif re.match(x, 'i7', re.IGNORECASE):
+                                elif re.search('yes|yeah|strong|powerful|i7[^A-Z]?', x, re.IGNORECASE):
                                     final_suggestion = searchForProductNameContained('i7', choices_left)
                                     printFinalSuggestion(final_suggestion)
                                     break
@@ -224,43 +226,42 @@ def program():
                         else:
                             print('Please select a valid choice!')
                     break
-                elif len(x) > 3 and re.search(x, 'windows', re.IGNORECASE):
-                    print(categoryPreference)
+                elif len(x) > 3 and re.search('not apple|window[^A-Z]?', x, re.IGNORECASE):
                     brandPreference = searchForLackOfBrand('Apple', categoryPreference)
                     printFinalSuggestion(brandPreference)
                     break
                 else:
                     print('Please select a valid choice!')
             break
-        elif len(x) > 3 and re.search(x, 'wearables', re.IGNORECASE):
+        elif len(x) > 3 and re.search('wear|watch|smartwatch|smart-watch',x, re.IGNORECASE):
             while True and not re.match(x, 'exit', re.IGNORECASE):
                 categoryPreference = searchForCategory('Wearables', item_list)
                 x = input('Are you planning to use this smart watch mostly for sports activities, or as casual '
-                          'wear ?')
-                if len(x) > 3 and re.search(x, 'sports activities', re.IGNORECASE):
+                          'wear?')
+                if len(x) > 3 and re.search('yes|yeah|sport[^A-Z]?', x, re.IGNORECASE):
                     final_suggestion = searchForBrands('Suunto', 'Polar', categoryPreference)
                     printFinalSuggestion(final_suggestion)
                     break
-                elif len(x) > 3 and re.search(x, 'casual wear', re.IGNORECASE):
+                elif len(x) > 3 and re.search('no|casual|wear[^A-Z]?', x, re.IGNORECASE):
                     while True and not re.match(x, 'exit', re.IGNORECASE):
                         choices_left = searchForBrands('Apple', 'Asus', categoryPreference)
                         x = input("Are you a fan of Apple products? (yes/no)")
-                        if re.match(x, 'yes', re.IGNORECASE):
+                        if len(x) > 2 and re.search('yeah|apple|yes[^A-Z]?', x, re.IGNORECASE):
                             while True and not re.match(x, 'exit', re.IGNORECASE):
                                 next_choice = searchForBrand('Apple', choices_left)
                                 x = input('Would you prefer a bigger watch, or a smaller one? (bigger/smaller)')
-                                if len(x) > 2 and re.search(x, 'bigger watch', re.IGNORECASE):
+                                if len(x) > 2 and re.search('yes|yeah|big[^A-Z]?', x, re.IGNORECASE):
                                     final_suggestion = searchForProductNameContained('Watch 42mm', next_choice)
                                     printFinalSuggestion(final_suggestion)
                                     break
-                                elif len(x) > 2 and re.search(x, 'smaller watch', re.IGNORECASE):
+                                elif len(x) > 1 and re.search('no|nope|small[^A-Z]?', x, re.IGNORECASE):
                                     final_suggestion = searchForProductNameContained('Watch 38mm', next_choice)
                                     printFinalSuggestion(final_suggestion)
                                     break
                                 else:
                                     print('Please select a valid choice!')
                             break
-                        elif re.match(x, 'no', re.IGNORECASE):
+                        elif len(x) > 1 and re.search('not apple|nope[^A-Z]?', x, re.IGNORECASE):
                             final_suggestion = searchForBrand('Asus', choices_left)
                             printFinalSuggestion(final_suggestion)
                             break
@@ -270,32 +271,31 @@ def program():
                 else:
                     print('Please select a valid choice!')
             break
-        elif len(x) > 3 and re.search(x, 'smart home', re.IGNORECASE):
+        elif len(x) > 3 and re.search('intelligent|smart[^A-Z]?', x, re.IGNORECASE):
             while True and not re.match(x, 'exit', re.IGNORECASE):
                 categoryPreference = searchForCategory('Smart Home', item_list)
-                x = input('Are you interested in products for: (1) listening to some music, (2) making some tasty '
+                x = input('Are you interested in products for: (1) listening to some music, (2) cooking some tasty '
                           'milk creations, or (3) cleaning your house?')
-                if len(x) > 4 and re.search(x, 'listening to music', re.IGNORECASE):
+                if len(x) > 4 and re.search('leisure|entertain|music|listen[^A-Z]?', x, re.IGNORECASE):
                     while True and not re.match(x, 'exit', re.IGNORECASE):
                         next_choice = searchForBrand('Amazon', categoryPreference)
-                        x = input('Would you prefer a: (1) stronger speaker, or (2) a more '
-                                  'compact one? (1/2)')
-                        if len(x) > 4 and re.search(x, 'stronger', re.IGNORECASE):
+                        x = input('Would you prefer a stronger speaker, or a more '
+                                  'compact one?')
+                        if len(x) > 2 and re.search('yes|yeah|strong[^A-Z]?', x, re.IGNORECASE):
                             final_suggestion = searchForProductName('Alexa Echo', next_choice)
                             printFinalSuggestion(final_suggestion)
                             break
-                        elif len(x) > 4 and re.search(x, 'a more compact', re.IGNORECASE):
+                        elif len(x) > 1 and re.search('no|nope|less|compact[^A-Z]?', x, re.IGNORECASE):
                             final_suggestion = searchForProductName('Alexa Dot', next_choice)
                             printFinalSuggestion(final_suggestion)
                             break
                         else:
                             print('Please select a valid choice!')
-                elif len(x) > 3 and re.search(x, 'making tasty '
-                                                 'milk creations', re.IGNORECASE):
+                elif len(x) > 3 and re.search('cook|tasty|milk|creat[^A-Z]?', x, re.IGNORECASE):
                     final_suggestion = searchForBrand('Tchibo', categoryPreference)
                     printFinalSuggestion(final_suggestion)
                     break
-                elif len(x) > 4 and re.search(x, 'cleaning house', re.IGNORECASE):
+                elif len(x) > 4 and re.search('house|clean[^A-Z]?', x, re.IGNORECASE):
                     final_suggestion = searchForBrand('Samsung', categoryPreference)
                     printFinalSuggestion(final_suggestion)
                     break

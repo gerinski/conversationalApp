@@ -271,11 +271,11 @@ def program():
                 else:
                     print('Please select a valid choice!')
             break
-        elif len(x) > 3 and re.search('intelligent|smart[^A-Z]?', x, re.IGNORECASE):
+        elif len(x) > 3 and re.search('intelligent|smart|home|robot|assist[^A-Z]?', x, re.IGNORECASE):
             while True and not re.match(x, 'exit', re.IGNORECASE):
                 categoryPreference = searchForCategory('Smart Home', item_list)
-                x = input('Are you interested in products for: (1) listening to some music, (2) cooking some tasty '
-                          'milk creations, or (3) cleaning your house?')
+                x = input('Are you interested in products for: listening to some music, cooking some tasty '
+                          'milk creations, or cleaning your house?')
                 if len(x) > 4 and re.search('leisure|entertain|music|listen[^A-Z]?', x, re.IGNORECASE):
                     while True and not re.match(x, 'exit', re.IGNORECASE):
                         next_choice = searchForBrand('Amazon', categoryPreference)

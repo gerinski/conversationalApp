@@ -310,5 +310,5 @@ def program():
 
 
 print("Welcome to the application! If at any point you would like to finish your session, "
-      "please type exit and then hit enter!")
+      "please type exit and then hit enter! ")
 program()
